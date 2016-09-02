@@ -45,6 +45,17 @@ namespace MvcApplication
                             context.Identity.AddClaim(new Claim("country", country, ClaimValueTypes.String, context.Connection));
                         }
 
+                        // Get the user's roles
+                        var rolesObject = context.User["app_metadata"]["roles"];
+                        if (rolesObject != null)
+                        {
+                            string[] roles = rolesObject.ToObject<string[]>();
+                            foreach (var role in roles)
+                            {
+                                context.Identity.AddClaim(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, context.Connection));
+                            }
+                        }
+
                         return Task.FromResult(0);
                     }
                 }
