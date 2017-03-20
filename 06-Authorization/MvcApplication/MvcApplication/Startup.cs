@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Auth0.Owin;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Newtonsoft.Json.Linq;
 using Owin;
@@ -16,28 +19,32 @@ namespace MvcApplication
     {
         public void Configuration(IAppBuilder app)
         {
+            // Configure Auth0 parameters
+            string auth0Domain = ConfigurationManager.AppSettings["auth0:Domain"];
+            string auth0ClientId = ConfigurationManager.AppSettings["auth0:ClientId"];
+            string auth0ClientSecret = ConfigurationManager.AppSettings["auth0:ClientSecret"];
+
+            // Set Cookies as default authentication type
+            app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
                 LoginPath = new PathString("/Account/Login")
             });
 
-            // Use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
             // Configure Auth0 authentication
-            var options = new Auth0AuthenticationOptions
+            var options = new Auth0AuthenticationOptions()
             {
-                ClientId = System.Configuration.ConfigurationManager.AppSettings["auth0:ClientId"],
-                ClientSecret = System.Configuration.ConfigurationManager.AppSettings["auth0:ClientSecret"],
-                Domain = System.Configuration.ConfigurationManager.AppSettings["auth0:Domain"],
-                RedirectPath = new PathString("/Auth0Account/ExternalLoginCallback"),
+                Domain = auth0Domain,
+                ClientId = auth0ClientId,
+                ClientSecret = auth0ClientSecret,
+
                 Provider = new Auth0AuthenticationProvider
                 {
                     OnAuthenticated = context =>
                     {
                         // Get the user's country
-                        JToken countryObject = context.User["country"];
+                        JToken countryObject = context.User[$"https://{auth0Domain.Replace('.', ':')}/country"];
                         if (countryObject != null)
                         {
                             string country = countryObject.ToObject<string>();
@@ -46,7 +53,7 @@ namespace MvcApplication
                         }
 
                         // Get the user's roles
-                        var rolesObject = context.User["app_metadata"]["roles"];
+                        var rolesObject = context.User[$"https://{auth0Domain.Replace('.', ':')}/roles"];
                         if (rolesObject != null)
                         {
                             string[] roles = rolesObject.ToObject<string[]>();
@@ -55,6 +62,7 @@ namespace MvcApplication
                                 context.Identity.AddClaim(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, context.Connection));
                             }
                         }
+
 
                         return Task.FromResult(0);
                     }
