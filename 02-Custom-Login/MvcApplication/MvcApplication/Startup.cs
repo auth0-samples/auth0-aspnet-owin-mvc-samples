@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 
@@ -13,9 +11,11 @@ namespace MvcApplication
     {
         public void Configuration(IAppBuilder app)
         {
+            // Set Cookies as default authentication type
+            app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
                 LoginPath = new PathString("/Account/Login")
             });
         }
