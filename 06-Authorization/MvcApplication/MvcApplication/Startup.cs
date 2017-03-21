@@ -44,7 +44,7 @@ namespace MvcApplication
                     OnAuthenticated = context =>
                     {
                         // Get the user's country
-                        JToken countryObject = context.User[$"https://{auth0Domain.Replace('.', ':')}/country"];
+                        JToken countryObject = context.User["https://schemas.quickstarts.com/country"];
                         if (countryObject != null)
                         {
                             string country = countryObject.ToObject<string>();
@@ -53,7 +53,7 @@ namespace MvcApplication
                         }
 
                         // Get the user's roles
-                        var rolesObject = context.User[$"https://{auth0Domain.Replace('.', ':')}/roles"];
+                        var rolesObject = context.User["https://schemas.quickstarts.com/roles"];
                         if (rolesObject != null)
                         {
                             string[] roles = rolesObject.ToObject<string[]>();

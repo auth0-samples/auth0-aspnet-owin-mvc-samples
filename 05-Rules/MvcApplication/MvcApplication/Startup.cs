@@ -44,7 +44,7 @@ namespace MvcApplication
                     OnAuthenticated = context =>
                     {
                         // Get the user's country
-                        JToken countryObject = context.User[$"https://{auth0Domain.Replace('.', ':')}/country"];
+                        JToken countryObject = context.User[$"https://schemas.quickstarts.com/country"];
                         if (countryObject != null)
                         {
                             string country = countryObject.ToObject<string>();
