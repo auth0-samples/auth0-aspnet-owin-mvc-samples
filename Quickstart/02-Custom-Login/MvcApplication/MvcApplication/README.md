@@ -2,13 +2,13 @@
 
 [Full tutorial](https://auth0.com/docs/quickstart/webapp/aspnet-owin/02-login-custom)
 
-## Getting Started
+## Running the example
 
-Make sure that `Web.config` is filled with your credentials such as client ID, domain, and client secret for your app.
+In order to run this project, you will need to add `http://localhost:56572/signin-auth0` to the list of **Allowed Callback URLs** for your Auth0 Client, and `http://localhost:56572/` to the list of **Allowed Logout URLs**.
 
 Specify the correct name of your DB connection in line 51 of [AccountController.cs](AccountController.cs).
 
-Register `http://localhost:56572/signin-auth0` as an **Allowed Callback URL** in your [Auth0 dashboard](https://manage.auth0.com), run the project and go to `http://localhost:56572/`.
+Also update the `auth0:ClientId`, `auth0:ClientSecret` and `auth0:Domain` settings in the `web.config` with the values of your Client.
 
 ## Issue Reporting
 
