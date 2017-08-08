@@ -21,6 +21,9 @@ namespace MvcApplication
             string auth0ClientId = ConfigurationManager.AppSettings["auth0:ClientId"];
             string auth0ClientSecret = ConfigurationManager.AppSettings["auth0:ClientSecret"];
 
+            // Enable Kentor Cookie Saver middleware
+            app.UseKentorOwinCookieSaver();
+
             // Set Cookies as default authentication type
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
             app.UseCookieAuthentication(new CookieAuthenticationOptions

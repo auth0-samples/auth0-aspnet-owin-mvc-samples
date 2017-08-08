@@ -11,6 +11,9 @@ namespace MvcApplication
     {
         public void Configuration(IAppBuilder app)
         {
+            // Enable Kentor Cookie Saver middleware
+            app.UseKentorOwinCookieSaver();
+
             // Set Cookies as default authentication type
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
