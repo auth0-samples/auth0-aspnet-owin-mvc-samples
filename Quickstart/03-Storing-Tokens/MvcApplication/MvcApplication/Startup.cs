@@ -43,6 +43,18 @@ namespace MvcApplication
                 SaveIdToken = true,
                 SaveAccessToken = true,
                 SaveRefreshToken = true
+
+                // If you want to request an access_token to pass to an API, then uncomment the code below
+                // and be sure to pass your own API Identifier
+                // Provider = new Auth0AuthenticationProvider
+                // {
+                //     OnApplyRedirect = context =>
+                //     {
+                //         context.RedirectUri += "&audience=" + WebUtility.UrlEncode("YOUR_API_IDENTIFIER");
+
+                //         context.Response.Redirect(context.RedirectUri);
+                //     }
+                // }
             };
             options.Scope.Add("offline_access"); // Request a refresh_token
             app.UseAuth0Authentication(options);

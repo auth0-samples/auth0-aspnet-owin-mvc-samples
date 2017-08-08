@@ -37,20 +37,6 @@ namespace MvcApplication
                 Domain = auth0Domain,
                 ClientId = auth0ClientId,
                 ClientSecret = auth0ClientSecret,
-
-                // If you want to save tokens, then please uncomment the code below
-                // SaveAccessToken = true,
-
-                // If you want to request an access_token to pass to an API, then uncomment the code below
-                // Provider = new Auth0AuthenticationProvider
-                // {
-                //     OnApplyRedirect = context =>
-                //     {
-                //         context.RedirectUri += "&audience=" + WebUtility.UrlEncode("YOUR_API_IDENTIFIER");
-
-                //         context.Response.Redirect(context.RedirectUri);
-                //     }
-                // }
             };
             options.Scope.Add("openid profile"); // Request a refresh_token
             app.UseAuth0Authentication(options);
