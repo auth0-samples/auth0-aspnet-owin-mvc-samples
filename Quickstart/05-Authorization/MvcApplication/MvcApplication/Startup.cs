@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Auth0.Owin;
@@ -35,26 +36,31 @@ namespace MvcApplication
                 LoginPath = new PathString("/Account/Login")
             });
 
-            // Configure Auth0 authentication
             var options = new Auth0AuthenticationOptions()
             {
                 Domain = auth0Domain,
                 ClientId = auth0ClientId,
                 ClientSecret = auth0ClientSecret,
 
-                Provider = new Auth0AuthenticationProvider
+                // Save the tokens to claims
+                SaveIdToken = true,
+                SaveAccessToken = true,
+                SaveRefreshToken = true,
+
+                // If you want to request an access_token to pass to an API, then replace the audience below to 
+                // pass your API Identifier instead of the /userinfo endpoint
+                Provider = new Auth0AuthenticationProvider()
                 {
+                    OnApplyRedirect = context =>
+                    {
+                        string userInfoAudience = $"https://{auth0Domain}/userinfo";
+                        string redirectUri =
+                            context.RedirectUri + "&audience=" + WebUtility.UrlEncode(userInfoAudience);
+
+                        context.Response.Redirect(redirectUri);
+                    },
                     OnAuthenticated = context =>
                     {
-                        // Get the user's country
-                        JToken countryObject = context.User["https://schemas.quickstarts.com/country"];
-                        if (countryObject != null)
-                        {
-                            string country = countryObject.ToObject<string>();
-
-                            context.Identity.AddClaim(new Claim("country", country, ClaimValueTypes.String, context.Connection));
-                        }
-
                         // Get the user's roles
                         var rolesObject = context.User["https://schemas.quickstarts.com/roles"];
                         if (rolesObject != null)
@@ -71,6 +77,7 @@ namespace MvcApplication
                     }
                 }
             };
+            options.Scope.Add("email"); // Request user's email address as well
             app.UseAuth0Authentication(options);
         }
     }

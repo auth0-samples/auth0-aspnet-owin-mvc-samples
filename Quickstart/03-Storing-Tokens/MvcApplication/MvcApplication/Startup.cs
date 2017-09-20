@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Net;
 using System.Threading.Tasks;
 using Auth0.Owin;
 using Microsoft.Owin;
@@ -42,21 +43,20 @@ namespace MvcApplication
                 // Save the tokens to claims
                 SaveIdToken = true,
                 SaveAccessToken = true,
-                SaveRefreshToken = true
 
-                // If you want to request an access_token to pass to an API, then uncomment the code below
-                // and be sure to pass your own API Identifier
-                // Provider = new Auth0AuthenticationProvider
-                // {
-                //     OnApplyRedirect = context =>
-                //     {
-                //         context.RedirectUri += "&audience=" + WebUtility.UrlEncode("YOUR_API_IDENTIFIER");
+                // If you want to request an access_token to pass to an API, then replace the audience below to 
+                // pass your API Identifier instead of the /userinfo endpoint
+                Provider = new Auth0AuthenticationProvider()
+                {
+                    OnApplyRedirect = context =>
+                    {
+                        string userInfoAudience = $"https://{auth0Domain}/userinfo";
+                        string redirectUri = context.RedirectUri + "&audience=" + WebUtility.UrlEncode(userInfoAudience);
 
-                //         context.Response.Redirect(context.RedirectUri);
-                //     }
-                // }
+                        context.Response.Redirect(redirectUri);
+                    }
+                }
             };
-            options.Scope.Add("offline_access"); // Request a refresh_token
             app.UseAuth0Authentication(options);
         }
     }
