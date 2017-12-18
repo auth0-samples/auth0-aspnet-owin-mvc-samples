@@ -43,6 +43,7 @@ namespace MvcApplication
                 // Save the tokens to claims
                 SaveIdToken = true,
                 SaveAccessToken = true,
+                SaveRefreshToken = true,
 
                 // If you want to request an access_token to pass to an API, then replace the audience below to 
                 // pass your API Identifier instead of the /userinfo endpoint
