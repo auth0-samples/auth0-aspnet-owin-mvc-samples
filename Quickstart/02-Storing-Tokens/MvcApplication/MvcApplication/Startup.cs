@@ -58,6 +58,8 @@ namespace MvcApplication
                     }
                 }
             };
+            options.Scope.Add("offline_access"); // Request a refresh_token
+            
             app.UseAuth0Authentication(options);
         }
     }
