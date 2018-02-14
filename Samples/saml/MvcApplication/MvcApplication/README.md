@@ -73,11 +73,6 @@ Also be sure to update the `web.config` with the correct Auth0 settings:
 
 ```xml
 <appSettings>
-  <add key="webpages:Version" value="3.0.0.0" />
-  <add key="webpages:Enabled" value="false" />
-  <add key="ClientValidationEnabled" value="true" />
-  <add key="UnobtrusiveJavaScriptEnabled" value="true" />
-
   <add key="auth0:Domain" value="YOUR_AUTH0_DOMAIN" />
   <add key="auth0:ClientId" value="YOUR_AUTH0_CLIENT_ID" />
   <add key="auth0:ReturnUrl" value="http://localhost:56572/" />
