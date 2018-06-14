@@ -1,6 +1,6 @@
 ﻿# Auth0 - ASP.NET (OWIN) MVC sample
 
-[Full tutorial](https://auth0.com/docs/quickstart/webapp/aspnet-owin/04-authorization)
+[Full tutorial](https://auth0.com/docs/quickstart/webapp/aspnet-owin/03-authorization)
 
 ## Running the example
 
