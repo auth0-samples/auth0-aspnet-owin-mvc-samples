@@ -34,7 +34,7 @@ namespace MvcApplication.Controllers
 
             return View(new UserProfileViewModel()
             {
-                Name = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                Name = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == claimsIdentity.NameClaimType)?.Value,
                 EmailAddress = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
                 ProfileImage = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == "picture")?.Value
             });
