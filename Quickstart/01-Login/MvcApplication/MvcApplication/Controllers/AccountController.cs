@@ -9,17 +9,19 @@ namespace MvcApplication.Controllers
     {
         public ActionResult Login(string returnUrl)
         {
-            return new ChallengeResult("Auth0", returnUrl ?? Url.Action("Index", "Home"));
+            HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties
+                {
+                    RedirectUri = returnUrl ?? Url.Action("Index", "Home")
+                },
+                "Auth0");
+            return new HttpUnauthorizedResult();
         }
 
         [Authorize]
         public void Logout()
         {
             HttpContext.GetOwinContext().Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
-            HttpContext.GetOwinContext().Authentication.SignOut(new AuthenticationProperties
-            {
-                RedirectUri = Url.Action("Index", "Home")
-            }, "Auth0");
+            HttpContext.GetOwinContext().Authentication.SignOut("Auth0");
         }
 
         [Authorize]
@@ -28,36 +30,4 @@ namespace MvcApplication.Controllers
             return View();
         }
     }
-
-    internal class ChallengeResult : HttpUnauthorizedResult
-    {
-        private const string XsrfKey = "XsrfId";
-
-        public ChallengeResult(string provider, string redirectUri)
-            : this(provider, redirectUri, null)
-        {
-        }
-
-        public ChallengeResult(string provider, string redirectUri, string userId)
-        {
-            LoginProvider = provider;
-            RedirectUri = redirectUri;
-            UserId = userId;
-        }
-
-        public string LoginProvider { get; set; }
-        public string RedirectUri { get; set; }
-        public string UserId { get; set; }
-
-        public override void ExecuteResult(ControllerContext context)
-        {
-            var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
-            if (UserId != null)
-            {
-                properties.Dictionary[XsrfKey] = UserId;
-            }
-            context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
-        }
-    }
-
 }
