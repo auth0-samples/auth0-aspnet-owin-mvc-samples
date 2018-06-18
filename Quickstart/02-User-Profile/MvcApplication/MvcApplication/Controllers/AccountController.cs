@@ -36,27 +36,10 @@ namespace MvcApplication.Controllers
 
             return View(new UserProfileViewModel()
             {
-                Name = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == claimsIdentity.NameClaimType)?.Value,
-                EmailAddress = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
-                ProfileImage = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == "picture")?.Value
+                Name = claimsIdentity?.FindFirst(c => c.Type == claimsIdentity.NameClaimType)?.Value,
+                EmailAddress = claimsIdentity?.FindFirst(c => c.Type == ClaimTypes.Email)?.Value,
+                ProfileImage = claimsIdentity?.FindFirst(c => c.Type == "picture")?.Value
             });
-        }
-        [Authorize]
-        public ActionResult Tokens()
-        {
-            var claimsIdentity = User.Identity as ClaimsIdentity;
-
-            // Extract tokens
-            string accessToken = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == "access_token")?.Value;
-            string idToken = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == "id_token")?.Value;
-            string refreshToken = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == "refresh_token")?.Value;
-
-            // Save tokens in ViewBag
-            ViewBag.AccessToken = accessToken;
-            ViewBag.IdToken = idToken;
-            ViewBag.RefreshToken = refreshToken;
-
-            return View();
         }
 
         [Authorize]

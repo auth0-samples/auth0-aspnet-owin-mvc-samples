@@ -220,7 +220,6 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Claims.cshtml" />
-    <Content Include="Views\Account\Tokens.cshtml" />
     <Content Include="Views\Account\UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
