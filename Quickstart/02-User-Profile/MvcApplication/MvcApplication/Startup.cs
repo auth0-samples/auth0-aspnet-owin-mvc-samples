@@ -1,9 +1,13 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Net;
-using Auth0.Owin;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
 
 [assembly: OwinStartup(typeof(MvcApplication.Startup))]
@@ -18,6 +22,8 @@ namespace MvcApplication
             string auth0Domain = ConfigurationManager.AppSettings["auth0:Domain"];
             string auth0ClientId = ConfigurationManager.AppSettings["auth0:ClientId"];
             string auth0ClientSecret = ConfigurationManager.AppSettings["auth0:ClientSecret"];
+            string auth0RedirectUri = ConfigurationManager.AppSettings["auth0:RedirectUri"];
+            string auth0PostLogoutRedirectUri = ConfigurationManager.AppSettings["auth0:PostLogoutRedirectUri"];
 
             // Enable Kentor Cookie Saver middleware
             app.UseKentorOwinCookieSaver();
@@ -31,33 +37,53 @@ namespace MvcApplication
             });
 
             // Configure Auth0 authentication
-            var options = new Auth0AuthenticationOptions()
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
             {
-                Domain = auth0Domain,
+                AuthenticationType = "Auth0",
+                
+                Authority = $"https://{auth0Domain}",
+
                 ClientId = auth0ClientId,
                 ClientSecret = auth0ClientSecret,
 
-                // Save the tokens to claims
-                SaveIdToken = true,
-                SaveAccessToken = true,
-                SaveRefreshToken = true,
+                RedirectUri = auth0RedirectUri,
+                PostLogoutRedirectUri = auth0PostLogoutRedirectUri,
 
-                // If you want to request an access_token to pass to an API, then replace the audience below to 
-                // pass your API Identifier instead of the /userinfo endpoint
-                Provider = new Auth0AuthenticationProvider()
+                ResponseType = OpenIdConnectResponseType.CodeIdToken,
+                Scope = "openid profile email",
+
+                TokenValidationParameters = new TokenValidationParameters
                 {
-                    OnApplyRedirect = context =>
-                    {
-                        string userInfoAudience = $"https://{auth0Domain}/userinfo";
-                        string redirectUri =
-                            context.RedirectUri + "&audience=" + WebUtility.UrlEncode(userInfoAudience);
+                    NameClaimType = "name"
+                },
 
-                        context.Response.Redirect(redirectUri);
+                Notifications = new OpenIdConnectAuthenticationNotifications
+                {
+                    RedirectToIdentityProvider = notification =>
+                    {
+                        if (notification.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout)
+                        {
+                            var logoutUri = $"https://{auth0Domain}/v2/logout?client_id={auth0ClientId}";
+
+                            var postLogoutUri = notification.ProtocolMessage.PostLogoutRedirectUri;
+                            if (!string.IsNullOrEmpty(postLogoutUri))
+                            {
+                                if (postLogoutUri.StartsWith("/"))
+                                {
+                                    // transform to absolute
+                                    var request = notification.Request;
+                                    postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase + postLogoutUri;
+                                }
+                                logoutUri += $"&returnTo={ Uri.EscapeDataString(postLogoutUri)}";
+                            }
+
+                            notification.Response.Redirect(logoutUri);
+                            notification.HandleResponse();
+                        }
+                        return Task.FromResult(0);
                     }
                 }
-            };
-            options.Scope.Add("email"); // Request user's email address as well
-            app.UseAuth0Authentication(options);
+            });
         }
     }
 }

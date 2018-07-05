@@ -1,6 +1,6 @@
 ﻿# Auth0 - ASP.NET (OWIN) MVC sample
 
-[Full tutorial](https://auth0.com/docs/quickstart/webapp/aspnet-owin/03-user-profile)
+[Full tutorial](https://auth0.com/docs/quickstart/webapp/aspnet-owin/02-user-profile)
 
 ## Running the example
 
