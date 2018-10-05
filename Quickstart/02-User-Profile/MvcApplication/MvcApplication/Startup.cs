@@ -18,6 +18,9 @@ namespace MvcApplication
     {
         public void Configuration(IAppBuilder app)
         {
+            // Configure TLS 1.2 support
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             // Configure Auth0 parameters
             string auth0Domain = ConfigurationManager.AppSettings["auth0:Domain"];
             string auth0ClientId = ConfigurationManager.AppSettings["auth0:ClientId"];
