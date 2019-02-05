@@ -19,7 +19,7 @@ Install-Package Microsoft.Owin.Security.WsFederation
 
 The library needs to be configured at application startup:
 
-```
+```csharp
 public class Startup
 {
     public void Configuration(IAppBuilder app)
