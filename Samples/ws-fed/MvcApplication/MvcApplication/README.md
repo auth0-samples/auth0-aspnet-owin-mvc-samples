@@ -6,7 +6,7 @@ This sample shows how to integrate your ASP.NET MVC application with Auth0 using
 
 1. Create a new application in Auth0
 2. Enable the WS-FED addon on the Addons tab
-3. In the settings of the WS-FED addon, specify the callback url `http://localhost:56572/` (or whatever the actual URL for your applications is, 
+3. In the settings of the WS-FED addon, specify the callback url `http://localhost:3000/callback` (or whatever the actual URL for your applications is,
 and set the Realm to `urn:MyApp`.
 
 ## Configuring the ASP.NET MVC application. 

@@ -4,7 +4,7 @@
 
 ## Running the example
 
-In order to run this project, you will need to add `http://localhost:56572/signin-auth0` to the list of **Allowed Callback URLs** for your Auth0 Client, and `http://localhost:56572/` to the list of **Allowed Logout URLs**.
+In order to run this project, you will need to add `http://localhost:3000/callback` to the list of **Allowed Callback URLs** for your Auth0 Client, and `http://localhost:3000/` to the list of **Allowed Logout URLs**.
 
 Also update the `auth0:ClientId`, `auth0:ClientSecret` and `auth0:Domain` settings in the `web.config` with the values of your Client.
 

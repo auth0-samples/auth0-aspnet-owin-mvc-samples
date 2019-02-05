@@ -2,7 +2,7 @@
 
 ## Running the example
 
-In order to run this project, you will need to add `http://localhost:56572/signin-auth0` to the list of **Allowed Callback URLs** for your Auth0 Client, and `http://localhost:56572/` to the list of **Allowed Logout URLs**.
+In order to run this project, you will need to add `http://localhost:3000/callback` to the list of **Allowed Callback URLs** for your Auth0 Client, and `http://localhost:3000/` to the list of **Allowed Logout URLs**.
 
 Specify the correct name of your DB connection in line 51 of [AccountController.cs](AccountController.cs).
 
