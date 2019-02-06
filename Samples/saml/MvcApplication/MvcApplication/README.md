@@ -6,7 +6,7 @@ This sample shows how to integrate your ASP.NET MVC application with Auth0 using
 
 1. Create a new application in Auth0
 2. Enable the SAML addon on the Addons tab
-3. In the settings of the SAML addon, specify the callback url `http://localhost:56572/Saml2/Acs` and these settings:
+3. In the settings of the SAML addon, specify the callback url `http://localhost:3000/callback` and these settings:
 
 ```json
 {
@@ -75,7 +75,7 @@ Also be sure to update the `web.config` with the correct Auth0 settings:
 <appSettings>
   <add key="auth0:Domain" value="YOUR_AUTH0_DOMAIN" />
   <add key="auth0:ClientId" value="YOUR_AUTH0_CLIENT_ID" />
-  <add key="auth0:ReturnUrl" value="http://localhost:56572/" />
+  <add key="auth0:ReturnUrl" value="http://localhost:3000/" />
   <add key="auth0:AppName" value="MyApp" />
 </appSettings>
 ```
