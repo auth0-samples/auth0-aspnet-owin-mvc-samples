@@ -25,15 +25,13 @@ namespace MvcApplication
             string auth0RedirectUri = ConfigurationManager.AppSettings["auth0:RedirectUri"];
             string auth0PostLogoutRedirectUri = ConfigurationManager.AppSettings["auth0:PostLogoutRedirectUri"];
 
-            // Enable Kentor Cookie Saver middleware
-            app.UseKentorOwinCookieSaver();
-
             // Set Cookies as default authentication type
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
-                LoginPath = new PathString("/Account/Login")
+                LoginPath = new PathString("/Account/Login"),
+                CookieSameSite = SameSiteMode.None
             });
 
             // Configure Auth0 authentication
