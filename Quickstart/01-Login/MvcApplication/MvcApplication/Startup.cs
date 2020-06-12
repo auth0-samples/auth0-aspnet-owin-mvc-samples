@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
+using Microsoft.Owin.Host.SystemWeb;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
+using MvcApplication.Support;
 using Owin;
 
 [assembly: OwinStartup(typeof(MvcApplication.Startup))]
@@ -31,7 +33,8 @@ namespace MvcApplication
             {
                 AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
                 LoginPath = new PathString("/Account/Login"),
-                CookieSameSite = SameSiteMode.None
+                CookieSameSite = SameSiteMode.Lax,
+                CookieManager = new SameSiteCookieManager(new SystemWebCookieManager())
             });
 
             // Configure Auth0 authentication
