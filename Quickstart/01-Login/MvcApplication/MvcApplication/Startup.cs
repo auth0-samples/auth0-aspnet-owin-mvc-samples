@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
+using Microsoft.Owin.Host.SystemWeb;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
+using MvcApplication.Support;
 using Owin;
 
 [assembly: OwinStartup(typeof(MvcApplication.Startup))]
@@ -25,15 +27,14 @@ namespace MvcApplication
             string auth0RedirectUri = ConfigurationManager.AppSettings["auth0:RedirectUri"];
             string auth0PostLogoutRedirectUri = ConfigurationManager.AppSettings["auth0:PostLogoutRedirectUri"];
 
-            // Enable Kentor Cookie Saver middleware
-            app.UseKentorOwinCookieSaver();
-
             // Set Cookies as default authentication type
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
-                LoginPath = new PathString("/Account/Login")
+                LoginPath = new PathString("/Account/Login"),
+                CookieSameSite = SameSiteMode.Lax,
+                CookieManager = new SameSiteCookieManager(new SystemWebCookieManager())
             });
 
             // Configure Auth0 authentication
