@@ -57,6 +57,8 @@ namespace MvcApplication
                     NameClaimType = "name"
                 },
 
+                CookieManager = new SameSiteCookieManager(new SystemWebCookieManager()),
+
                 Notifications = new OpenIdConnectAuthenticationNotifications
                 {
                     RedirectToIdentityProvider = notification =>

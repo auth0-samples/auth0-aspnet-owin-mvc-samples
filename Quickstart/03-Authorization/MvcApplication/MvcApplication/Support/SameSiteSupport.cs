@@ -42,6 +42,12 @@
         return true;
       }
 
+      // Cover Chrome 80+, because SameSite=None and Secure=False is not supported.
+      if (userAgent.Contains("Chrome/8"))
+      {
+        return true;
+      }
+
       // Unreal Engine runs Chromium 59, but does not advertise as Chrome until 4.23. Treat versions of Unreal
       // that don't specify their Chrome version as lacking support for SameSite=None.
       if (userAgent.Contains("UnrealEngine") && !userAgent.Contains("Chrome"))
