@@ -40,6 +40,9 @@ namespace MvcApplication.Support
                                 SameSite.BrowserDetection.DisallowsSameSiteNone(context.Request.Headers["User-Agent"]))
         {
           options.SameSite = null;
+        } else if(options.SameSite == Microsoft.Owin.SameSiteMode.None && options.Secure == false)
+        {
+          options.SameSite = null;
         }
       }
     }
