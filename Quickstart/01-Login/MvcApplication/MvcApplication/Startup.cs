@@ -34,8 +34,7 @@ namespace MvcApplication
             {
                 AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
                 LoginPath = new PathString("/Account/Login"),
-                CookieSameSite = SameSiteMode.Lax,
-                CookieManager = new SameSiteCookieManager(new SystemWebCookieManager())
+                CookieSameSite = SameSiteMode.Lax
             });
 
             // Configure Auth0 authentication
@@ -74,7 +73,7 @@ namespace MvcApplication
                     {
                         if (notification.ProtocolMessage.RequestType == OpenIdConnectRequestType.Authentication)
                         {
-                            notification.ProtocolMessage.SetParameter("audience", auth0Audience);
+                            //notification.ProtocolMessage.SetParameter("audience", auth0Audience);
                         }
                         else if (notification.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout)
                         {

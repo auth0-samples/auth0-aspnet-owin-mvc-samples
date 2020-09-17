@@ -19,9 +19,7 @@ namespace MvcApplication
             {
                 AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
                 LoginPath = new PathString("/Account/Login"),
-                CookieSameSite = SameSiteMode.Lax,
-                CookieManager = new SameSiteCookieManager(new SystemWebCookieManager()),
-                CookieSecure = CookieSecureOption.SameAsRequest
+                CookieSameSite = SameSiteMode.Lax
             });
 
         }
