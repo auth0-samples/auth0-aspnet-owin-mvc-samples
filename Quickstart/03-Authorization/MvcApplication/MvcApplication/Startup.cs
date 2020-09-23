@@ -32,8 +32,7 @@ namespace MvcApplication
             {
                 AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
                 LoginPath = new PathString("/Account/Login"),
-                CookieSameSite = SameSiteMode.Lax,
-                CookieManager = new SameSiteCookieManager(new SystemWebCookieManager())
+                CookieSameSite = SameSiteMode.Lax
             });
 
             // Configure Auth0 authentication
@@ -57,6 +56,8 @@ namespace MvcApplication
                     NameClaimType = "name",
                     RoleClaimType = "https://schemas.quickstarts.com/roles"
                 },
+
+                CookieManager = new SameSiteCookieManager(new SystemWebCookieManager()),
 
                 Notifications = new OpenIdConnectAuthenticationNotifications
                 {
