@@ -57,7 +57,8 @@ namespace MvcApplication
                 {
                     NameClaimType = "name"
                 },
-
+                
+                // SameSiteCookieManager is not a built in constructor but is a separate class created as part of the demo
                 CookieManager = new SameSiteCookieManager(new SystemWebCookieManager()),
 
                 Notifications = new OpenIdConnectAuthenticationNotifications
