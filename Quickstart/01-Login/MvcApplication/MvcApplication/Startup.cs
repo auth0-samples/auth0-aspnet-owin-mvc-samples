@@ -34,7 +34,8 @@ namespace MvcApplication
             {
                 AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
                 LoginPath = new PathString("/Account/Login"),
-                CookieSameSite = SameSiteMode.Lax
+                CookieSameSite = SameSiteMode.Lax,
+                CookieManager = new SameSiteCookieManager(new SystemWebCookieManager())
             });
 
             // Configure Auth0 authentication
