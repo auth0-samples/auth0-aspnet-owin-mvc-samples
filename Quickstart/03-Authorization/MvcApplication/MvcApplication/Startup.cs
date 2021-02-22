@@ -33,6 +33,8 @@ namespace MvcApplication
                 AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
                 LoginPath = new PathString("/Account/Login"),
                 CookieSameSite = SameSiteMode.Lax,
+                // More information on why the CookieManager needs to be set can be found here: 
+                // https://github.com/aspnet/AspNetKatana/wiki/System.Web-response-cookie-integration-issues
                 CookieManager = new SameSiteCookieManager(new SystemWebCookieManager())
             });
 
@@ -58,6 +60,8 @@ namespace MvcApplication
                     RoleClaimType = "https://schemas.quickstarts.com/roles"
                 },
 
+                // More information on why the CookieManager needs to be set can be found here: 
+                // https://docs.microsoft.com/en-us/aspnet/samesite/owin-samesite
                 CookieManager = new SameSiteCookieManager(new SystemWebCookieManager()),
 
                 Notifications = new OpenIdConnectAuthenticationNotifications
