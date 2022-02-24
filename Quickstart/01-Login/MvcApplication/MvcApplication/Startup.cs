@@ -23,8 +23,6 @@ namespace MvcApplication
             // Configure Auth0 parameters
             string auth0Domain = ConfigurationManager.AppSettings["auth0:Domain"];
             string auth0ClientId = ConfigurationManager.AppSettings["auth0:ClientId"];
-            string auth0ClientSecret = ConfigurationManager.AppSettings["auth0:ClientSecret"];
-            string auth0Audience = ConfigurationManager.AppSettings["auth0:Audience"];
             string auth0RedirectUri = ConfigurationManager.AppSettings["auth0:RedirectUri"];
             string auth0PostLogoutRedirectUri = ConfigurationManager.AppSettings["auth0:PostLogoutRedirectUri"];
 
@@ -48,13 +46,9 @@ namespace MvcApplication
                 Authority = $"https://{auth0Domain}",
 
                 ClientId = auth0ClientId,
-                ClientSecret = auth0ClientSecret,
 
                 RedirectUri = auth0RedirectUri,
                 PostLogoutRedirectUri = auth0PostLogoutRedirectUri,
-
-                ResponseType = OpenIdConnectResponseType.CodeIdTokenToken,
-                Scope = "openid profile",
 
                 TokenValidationParameters = new TokenValidationParameters
                 {
@@ -70,22 +64,12 @@ namespace MvcApplication
                     SecurityTokenValidated = notification =>
                     {
                         notification.AuthenticationTicket.Identity.AddClaim(new Claim("id_token", notification.ProtocolMessage.IdToken));
-                        notification.AuthenticationTicket.Identity.AddClaim(new Claim("access_token", notification.ProtocolMessage.AccessToken));
 
                         return Task.FromResult(0);
                     },
                     RedirectToIdentityProvider = notification =>
                     {
-                        if (notification.ProtocolMessage.RequestType == OpenIdConnectRequestType.Authentication)
-                        {
-                            // The context's ProtocolMessage can be used to pass along additional query parameters
-                            // to Auth0's /authorize endpoint.
-                            // 
-                            // Set the audience query parameter to the API identifier to ensure the returned Access Tokens can be used
-                            // to call protected endpoints on the corresponding API.
-                            notification.ProtocolMessage.SetParameter("audience", auth0Audience);
-                        }
-                        else if (notification.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout)
+                        if (notification.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout)
                         {
                             var logoutUri = $"https://{auth0Domain}/v2/logout?client_id={auth0ClientId}";
 

@@ -30,7 +30,6 @@ namespace MvcApplication.Controllers
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
-            ViewBag.AccessToken = claimsIdentity?.FindFirst(c => c.Type == "access_token")?.Value;
             ViewBag.IdToken = claimsIdentity?.FindFirst(c => c.Type == "id_token")?.Value;
 
             return View();
