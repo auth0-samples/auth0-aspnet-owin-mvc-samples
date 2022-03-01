@@ -22,7 +22,6 @@ namespace MvcApplication
             // Configure Auth0 parameters
             string auth0Domain = ConfigurationManager.AppSettings["auth0:Domain"];
             string auth0ClientId = ConfigurationManager.AppSettings["auth0:ClientId"];
-            string auth0ClientSecret = ConfigurationManager.AppSettings["auth0:ClientSecret"];
             string auth0RedirectUri = ConfigurationManager.AppSettings["auth0:RedirectUri"];
             string auth0PostLogoutRedirectUri = ConfigurationManager.AppSettings["auth0:PostLogoutRedirectUri"];
 
@@ -46,12 +45,10 @@ namespace MvcApplication
                 Authority = $"https://{auth0Domain}",
 
                 ClientId = auth0ClientId,
-                ClientSecret = auth0ClientSecret,
 
                 RedirectUri = auth0RedirectUri,
                 PostLogoutRedirectUri = auth0PostLogoutRedirectUri,
 
-                ResponseType = OpenIdConnectResponseType.CodeIdToken,
                 Scope = "openid profile email",
 
                 TokenValidationParameters = new TokenValidationParameters
