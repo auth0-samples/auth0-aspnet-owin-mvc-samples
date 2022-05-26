@@ -5,7 +5,7 @@ on:
 
 jobs:
   auto-merge-dependency-updates:
-    name: Enable auto-merge for Dependabot PRs
+    name: Automatically merge Dependabot PRs
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'dependencies')
     steps:
@@ -14,7 +14,7 @@ jobs:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
   auto-approve-dependency-updates:
-    name: Approve dependabot PRs
+    name: Automatically approve Dependabot PRs
     runs-on: ubuntu-latest
     needs: auto-merge-dependency-updates
     if: github.event.pull_request.user.login == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'dependencies')
