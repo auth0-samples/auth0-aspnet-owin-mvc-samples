@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "nuget" 
-    directory: "/" 
+    directory: "/Quickstart/00-Starter-Seed/MvcApplication" 
     schedule:
       interval: "daily"
     ignore:
