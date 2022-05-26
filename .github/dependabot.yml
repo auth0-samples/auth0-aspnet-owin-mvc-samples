@@ -1,10 +1,51 @@
 version: 2
 updates:
-  - package-ecosystem: "nuget" 
-    directory: "/Quickstart/00-Starter-Seed/MvcApplication" 
+  - package-ecosystem: "nuget"
+    directory: "/Quickstart/00-Starter-Seed/MvcApplication"
     schedule:
       interval: "daily"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
-      
+  - package-ecosystem: "nuget"
+    directory: "/Quickstart/01-Login/MvcApplication"
+    schedule:
+      interval: "daily"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+  - package-ecosystem: "nuget"
+    directory: "/Quickstart/02-User-Profile/MvcApplication"
+    schedule:
+      interval: "daily"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+  - package-ecosystem: "nuget"
+    directory: "/Quickstart/03-Authorization/MvcApplication"
+    schedule:
+      interval: "daily"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+  - package-ecosystem: "nuget"
+    directory: "/Samples/custom-login/MvcApplication"
+    schedule:
+      interval: "daily"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+  - package-ecosystem: "nuget"
+    directory: "/Samples/saml/MvcApplication"
+    schedule:
+      interval: "daily"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+  - package-ecosystem: "nuget"
+    directory: "/Samples/ws-fed/MvcApplication"
+    schedule:
+      interval: "daily"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
