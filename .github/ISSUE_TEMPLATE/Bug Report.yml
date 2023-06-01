@@ -46,3 +46,16 @@ body:
       description: Any other relevant information you think would be useful.
     validations:
       required: false
+
+  - type: dropdown
+    id: environment-sample
+    attributes:
+      label: Sample
+      multiple: false
+      options:
+        - Started seed
+        - Login
+        - User profile
+        - Authorization
+    validations:
+      required: true
